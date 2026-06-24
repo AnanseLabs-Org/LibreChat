@@ -13,7 +13,7 @@ services:
     restart: always
     user: "${UID}:${GID}"
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - "host.docker.internal,wlk-gpu-sortformer,akan-large-v3:host-gateway"
     environment:
       - HOST=0.0.0.0
       - MONGO_URI=mongodb://mongodb:27017/LibreChat
@@ -23,10 +23,10 @@ services:
       - PROXY=${PROXY:-}
       - HTTP_PROXY=${HTTP_PROXY:-}
       - HTTPS_PROXY=${HTTPS_PROXY:-}
-      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,::1},${no_proxy:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal
+      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,::1},${no_proxy:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal,wlk-gpu-sortformer,akan-large-v3
       - http_proxy=${http_proxy:-}
       - https_proxy=${https_proxy:-}
-      - no_proxy=${no_proxy:-localhost,127.0.0.1,::1},${NO_PROXY:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal
+      - no_proxy=${no_proxy:-localhost,127.0.0.1,::1},${NO_PROXY:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal,wlk-gpu-sortformer,akan-large-v3
     volumes:
       - type: bind
         source: ./.env
@@ -91,6 +91,16 @@ services:
       - vectordb
     env_file:
       - .env
+
+  # Cloudflare Tunnel service to expose the api container securely
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    depends_on:
+      - api
 
 volumes:
   pgdata2:
