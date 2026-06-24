@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const { createMethods } = require('@librechat/data-schemas');
 const { matchModelName, findMatchingPattern } = require('@librechat/api');
 const getLogStores = require('~/cache/getLogStores');
+const VoiceProfile = require('./VoiceProfile');
 
 const methods = createMethods(mongoose, {
   matchModelName,
@@ -19,4 +20,5 @@ const seedDatabase = async () => {
 module.exports = {
   ...methods,
   seedDatabase,
+  VoiceProfile,
 };
