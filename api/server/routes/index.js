@@ -36,10 +36,12 @@ const keys = require('./keys');
 const user = require('./user');
 const mcp = require('./mcp');
 const rum = require('./rum');
-const voices = require('./voices');
+const livekit = require("./livekit");
+const voices = require("./voices");
 
 module.exports = {
   rum,
+  livekit,
   voices,
   mcp,
   auth,

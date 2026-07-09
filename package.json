@@ -199,6 +199,7 @@
     ]
   },
   "dependencies": {
-    "claude": "^0.1.1"
+    "claude": "^0.1.1",
+    "livekit-server-sdk": "^2.15.5"
   }
 }
