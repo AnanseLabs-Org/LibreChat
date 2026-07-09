@@ -65,9 +65,9 @@ async def main():
     load_env("../.env")
 
     # 4. Read LiveKit environment variables
-    api_key = os.environ.get("LIVEKIT_API_KEY", "APIdtfnLBq7JYvn")
-    api_secret = os.environ.get("LIVEKIT_API_SECRET", "kDKqh8RSOWcLPsilyeRGS40mXjCLPs24xbqeyJJXBE3")
-    ws_url = os.environ.get("LIVEKIT_URL") or os.environ.get("LIVEKIT_WS_URL", "wss://horlapchat-ivsoi3m4.livekit.cloud")
+    api_key = os.environ.get("LIVEKIT_API_KEY", "YOUR_LIVEKIT_API_KEY")
+    api_secret = os.environ.get("LIVEKIT_API_SECRET", "YOUR_LIVEKIT_API_SECRET")
+    ws_url = os.environ.get("LIVEKIT_URL") or os.environ.get("LIVEKIT_WS_URL", "wss://example-livekit.com")
 
     # Use room name from argument if passed, else generate one
     if len(sys.argv) > 1:
