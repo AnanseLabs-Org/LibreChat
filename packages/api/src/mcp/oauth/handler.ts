@@ -680,6 +680,8 @@ export class MCPOAuthHandler {
                 ? existing.clientMetadata.issuer.replace(/\/+$/, '')
                 : null;
             const currentIssuer = (metadata.issuer ?? authServerUrl.toString()).replace(/\/+$/, '');
+            const expectedClientName = process.env.APP_TITLE ? `${process.env.APP_TITLE} MCP Client` : 'LibreChat MCP Client';
+            const storedClientName = (existing.clientInfo as OAuthClientInformation).client_name;
 
             if (!storedRedirectUri || storedRedirectUri !== redirectUri) {
               logger.debug(
@@ -688,6 +690,10 @@ export class MCPOAuthHandler {
             } else if (!storedIssuer || storedIssuer !== currentIssuer) {
               logger.debug(
                 `[MCPOAuth] Issuer mismatch (stored: ${storedIssuer ?? 'none'}, current: ${currentIssuer}), will re-register`,
+              );
+            } else if (!storedClientName || storedClientName !== expectedClientName) {
+              logger.debug(
+                `[MCPOAuth] Client name mismatch (stored: ${storedClientName || 'none'}, expected: ${expectedClientName}), will re-register`,
               );
             } else {
               logger.debug(
