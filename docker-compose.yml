@@ -9,7 +9,6 @@ services:
     ports:
       - "${PORT}:${PORT}"
     depends_on:
-      - mongodb
       - rag_api
     image: registry.librechat.ai/danny-avila/librechat-dev:latest
     restart: always
@@ -18,17 +17,17 @@ services:
       - "host.docker.internal,wlk-gpu-sortformer,akan-large-v3:host-gateway"
     environment:
       - HOST=0.0.0.0
-      - MONGO_URI=mongodb://mongodb:27017/LibreChat
+      - MONGO_URI=${MONGO_URI}
       - MEILI_HOST=http://meilisearch:7700
       - RAG_PORT=${RAG_PORT:-8000}
       - RAG_API_URL=http://rag_api:${RAG_PORT:-8000}
       - PROXY=${PROXY:-}
       - HTTP_PROXY=${HTTP_PROXY:-}
       - HTTPS_PROXY=${HTTPS_PROXY:-}
-      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,::1},${no_proxy:-},mongodb,meilisearch,rag_api,vectordb,host.docker.internal,wlk-gpu-sortformer,akan-large-v3
+      - NO_PROXY=${NO_PROXY:-localhost,127.0.0.1,::1},${no_proxy:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal,wlk-gpu-sortformer,akan-large-v3
       - http_proxy=${http_proxy:-}
       - https_proxy=${https_proxy:-}
-      - no_proxy=${no_proxy:-localhost,127.0.0.1,::1},${NO_PROXY:-},mongodb,meilisearch,rag_api,vectordb,host.docker.internal,wlk-gpu-sortformer,akan-large-v3
+      - no_proxy=${no_proxy:-localhost,127.0.0.1,::1},${NO_PROXY:-},mongodb,chat-mongodb,meilisearch,chat-meilisearch,rag_api,vectordb,host.docker.internal,wlk-gpu-sortformer,akan-large-v3
     volumes:
       - type: bind
         source: ./.env
@@ -42,7 +41,7 @@ services:
     container_name: hst-ananselabs-chat-admin
     image: registry.librechat.ai/clickhouse/librechat-admin-panel:latest
     ports:
-      - "${ADMIN_PANEL_PORT:-3000}:3000"
+      - "0.0.0.0:${ADMIN_PANEL_PORT:-3000}:3000"
     depends_on:
       - api
     restart: always
@@ -53,14 +52,14 @@ services:
       - VITE_API_BASE_URL=${DOMAIN_CLIENT:-http://localhost:3080}
       - SESSION_COOKIE_SECURE=${ADMIN_PANEL_SESSION_COOKIE_SECURE:-false}
 
-  mongodb:
-    container_name: hst-ananselabs-chat-mongodb
-    image: mongo:8.0.20
-    restart: always
-    user: "${UID}:${GID}"
-    volumes:
-      - ./data-node:/data/db
-    command: mongod --noauth
+  # mongodb:
+  #   container_name: hst-ananselabs-chat-mongodb
+  #   image: mongo:8.0.20
+  #   restart: always
+  #   user: "${UID}:${GID}"
+  #   volumes:
+  #     - ./data-node:/data/db
+  #   command: mongod --noauth
 
   meilisearch:
     container_name: hst-ananselabs-chat-meilisearch
