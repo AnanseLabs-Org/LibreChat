@@ -97,9 +97,8 @@ export default defineConfig(({ command }) => ({
         globPatterns: [
           '**/*.{js,css,html}',
           'assets/favicon*.png',
-          'assets/icon-*.png',
-          'assets/apple-touch-icon*.png',
-          'assets/maskable-icon.png',
+          'assets/android-chrome-*.png',
+          'assets/apple-touch-icon.png',
           'manifest.webmanifest',
         ],
         globIgnores: [
@@ -154,17 +153,17 @@ export default defineConfig(({ command }) => ({
             type: 'image/png',
           },
           {
-            src: 'assets/apple-touch-icon-180x180.png',
+            src: 'assets/apple-touch-icon.png',
             sizes: '180x180',
             type: 'image/png',
           },
           {
-            src: 'assets/icon-192x192.png',
+            src: 'assets/android-chrome-192x192.png',
             sizes: '192x192',
             type: 'image/png',
           },
           {
-            src: 'assets/maskable-icon.png',
+            src: 'assets/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
