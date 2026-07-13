@@ -420,7 +420,7 @@ export class MCPOAuthHandler {
 
     /** Client metadata based on what the server supports */
     const clientMetadata = {
-      client_name: 'LibreChat MCP Client',
+      client_name: process.env.APP_TITLE ? `${process.env.APP_TITLE} MCP Client` : 'LibreChat MCP Client',
       redirect_uris: [redirectUri || this.getDefaultRedirectUri()],
       grant_types: ['authorization_code'] as string[],
       response_types: ['code'] as string[],
