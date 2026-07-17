@@ -53,7 +53,7 @@ services:
       - SESSION_COOKIE_SECURE=${ADMIN_PANEL_SESSION_COOKIE_SECURE:-false}
 
   # mongodb:
-  #   container_name: hst-ananselabs-chat-mongodb
+  #   container_name: chat-mongodb
   #   image: mongo:8.0.20
   #   restart: always
   #   user: "${UID}:${GID}"
@@ -96,8 +96,9 @@ services:
     env_file:
       - .env
 
+  # Cloudflare Tunnel service to expose the api container securely
   tunnel:
-    container_name: hst-ananselabs-chat-tunnel
+    container_name: tunnel
     image: cloudflare/cloudflared:latest
     restart: unless-stopped
     command: tunnel --no-autoupdate run
@@ -105,9 +106,6 @@ services:
       - TUNNEL_TOKEN=${TUNNEL_TOKEN}
     depends_on:
       - api
-
 volumes:
   pgdata2:
-    name: hstai_pgdata2
-    external: true
 

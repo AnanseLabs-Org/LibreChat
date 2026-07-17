@@ -182,5 +182,5 @@ CLAUDE.md
 .gsd
 codedb.snapshot
 
-# Branding
+# Server-side branding assets (real assets live on server only)
 /branding/
